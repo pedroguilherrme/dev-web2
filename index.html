@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DWEB</title>
+    <style>
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #B0C4DE;
+            padding: 10px;
+            border-bottom: 2px solid #483D8B;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 5%;
+        }
+
+        nav ul li:first-child {
+            margin-left: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: rgb(0, 0, 0); 
+        }
+    </style>
+</head>
+<body style="margin: 0; background-color: #B0C4DE  ;">
+    <header>
+        <h1 style="margin-left: 10px; color: #483D8B; font-family: 'Poppins', sans-serif;">Pedro Guilherme Dias Aragão
+            
+        </h1>
+    
+    </header>
+    
+    <div style="color: #483D8B;"> 
+
+    
+    <div>
+        <h2 style="font-family: 'Poppins', sans-serif; color: #483D8B; margin-left: 60px;">Criar usuário</h2>
+        <form id="userForm" style="margin-left: 60px;">
+            <input type="text" id="name" placeholder="Nome" required style="background-color: transparent; text-align: center; font-family: 'Poppins', sans-serif;">
+            <input type="email" id="email" placeholder="Email" required style="background-color: transparent; text-align: center; font-family: 'Poppins', sans-serif; ">
+            <button type="submit" style="background-color: transparent;
+            border: none; color: #483D8B; padding: 16px 32px; text-align: center; font-family: 'Poppins', sans-serif; text-decoration: none;display: inline-block; font-size: 15px; margin: 4px 2px; transition-duration: 0.4s; cursor: pointer; border-radius: 3%;">
+            <b>Adicionar usuário</b></button>
+        </form>
+        <table id="userTable" style="margin-left: 60px; margin-top: 20px; font-family: 'Poppins', sans-serif;">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Editar</th>
+                </tr>
+            </thead>
+            <tbody id="userList">
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <img src="imagem1.svg" style="width: 500px; height: 500px; margin-left: 1000px; margin-top: -100px;"  alt="">
+    </div>
+    <div style="font-family: 'Poppins', sans-serif; margin-left: 1150px;">
+        <p> <b>Crie um novo usuário ;)</b></p>
+    </div>
+
+    <script>
+        const userForm = document.getElementById('userForm');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const userList = document.getElementById('userList');
+
+        let users = [];
+
+        userForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const name = nameInput.value;
+            const email = emailInput.value;
+
+            if (name && email) {
+                const newUser = {
+                    name: name,
+                    email: email
+                };
+
+                users.push(newUser);
+
+                renderUsers();
+
+                nameInput.value = '';
+                emailInput.value = '';
+            } else {
+                alert('Please enter name and email.');
+            }
+        });
+
+        function renderUsers() {
+            userList.innerHTML = '';
+            users.forEach((user, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>
+                        <button onclick="editUser(${index})" style="background-color: transparent; color: #483D8B; text-align: center; font-family: 'Poppins', sans-serif; " >Editar</button>
+                        <button onclick="deleteUser(${index})" style="background-color: transparent; color: #483D8B; text-align: center; font-family: 'Poppins', sans-serif; " >Delete</button>
+                    </td>
+                `;
+                userList.appendChild(row);
+            });
+        }
+
+        function editUser(index) {
+            const user = users[index];
+            const newName = prompt('Enter new name:', user.name);
+            const newEmail = prompt('Enter new email:', user.email);
+
+            if (newName !== null && newEmail !== null) {
+                users[index] = {
+                    name: newName,
+                    email: newEmail
+                };
+                renderUsers();
+            }
+        }
+
+        function deleteUser(index) {
+            if (confirm('Tem certeza de deletar o usuário?')) {
+                users.splice(index, 1);
+                renderUsers();
+            }
+        }
+
+        renderUsers();
+    </script>
+</body>
+</html>
